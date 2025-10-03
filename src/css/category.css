@@ -1,0 +1,16 @@
+.categories{
+    display: flex;
+    flex-direction: column;
+    gap: 150px;
+    align-items: space-evenly;
+    justify-content: center;
+    color: black;
+}
+
+button{
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 24px;
+    text-align: left;
+}
