@@ -6,17 +6,25 @@ import '../css/navbar.css'
 export const Navbar = () => {
   return (
     <div className='navbar'>
-      <div className='image'>
-        <button className='logo' style={{ color: 'white' }}>
+      <div className='navbar-left'>
+        <button className='logo'>
           <FontAwesomeIcon icon={faBagShopping} />
-          <p>Store</p>
+          <span>Store</span>
         </button>
       </div>
-      <div className='search'>
-        <input type='text' placeholder='Search' />
-        <button className='Favourite'><FontAwesomeIcon icon={faHeart} /></button>
-        <button className='Cart'><FontAwesomeIcon icon={faCartShopping} /></button>
-        <button className='Login'>Login</button>
+      <div className='navbar-center'>
+        <input type='text' placeholder='Search' className='search-input' />
+      </div>
+      <div className='navbar-right'>
+        <button className='wishlist-btn'>
+          <FontAwesomeIcon icon={faHeart} />
+          <span>0</span>
+        </button>
+        <button className='cart-btn'>
+          <FontAwesomeIcon icon={faCartShopping} />
+          <span>0</span>
+        </button>
+        <button className='login-btn'>Log In</button>
       </div>
     </div>
   )

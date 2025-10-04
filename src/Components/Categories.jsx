@@ -1,13 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../css/category.css'
+
 export const Categories = () => {
-  const categories = ['All', 'Clothes', 'Electronics', 'Furnitures', 'Shoes', 'Others'];
+  const categories = ['All', 'Cloths', 'Electronics', 'Furniture', 'Shoes', 'Miscellaneous'];
+  const [activeCategory, setActiveCategory] = useState('Shoes');
 
   return (
     <div className='categories'>
-      {categories.map((item, index) => (
-        <button key={index}>{item}</button>
-      ))}
+      <h2 className='categories-title'>Categories</h2>
+      <div className='categories-list'>
+        {categories.map((item, index) => (
+          <button 
+            key={index} 
+            className={`category-btn ${activeCategory === item ? 'active' : ''}`}
+            onClick={() => setActiveCategory(item)}
+          >
+            {item}
+          </button>
+        ))}
+      </div>
     </div>
   )
 }

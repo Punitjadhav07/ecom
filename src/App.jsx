@@ -11,17 +11,15 @@ function App() {
 
   return (
     <>
-    <Navbar />
-    <div className='display'>
-      <div className='category'>
-        <Categories/>
+      <Navbar />
+      <div className='display'>
+        <div className='category'>
+          <Categories/>
+        </div>
+        <div className='productDisplay'>
+          <Products/>
+        </div>
       </div>
-      <div className= " productDisplay">
-        <Products/>
-      </div>
-      
-    </div>
-    
     </>
   )
 }
