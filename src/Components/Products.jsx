@@ -1,52 +1,66 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { fetchProducts } from '../Features/productSlice';
+import { addItemToCart } from '../Features/cartSlice';
+import { addItemToWishlist } from '../Features/wishlistSlice';
+import '../css/products.css';
 
-// Async thunk to fetch products
-export const fetchProducts = createAsyncThunk(
-  'products/fetchProducts',
-  async () => {
-    const response = await fetch('https://fakestoreapi.com/products');
-    const data = await response.json();
-    return data;
-  }
-);
+export const Products = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { filteredProducts } = useSelector((state) => state.products);
 
-const initialState = {
-  products: [],
-  filteredProducts: [],
-  selectedCategory: 'all',
-  categories: {
-    'all': 'All',
-    'electronics': 'Electronics', 
-    'jewelery': 'Jewelery',
-    "men's clothing": "Men's Clothing",
-    "women's clothing": "Women's Clothing"
-  }
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`);
+  };
+
+  const handleAddToCart = (e, product) => {
+    e.stopPropagation();
+    dispatch(addItemToCart(product));
+  };
+
+  const handleAddToWishlist = (e, product) => {
+    e.stopPropagation();
+    dispatch(addItemToWishlist(product));
+  };
+
+  return (
+    <div className='productList'>
+      {filteredProducts.map(product => (
+        <div key={product.id} className="product-card" onClick={() => handleProductClick(product.id)}>
+          <div className="product-image">
+            <img src={product.image} alt={product.title} />
+          </div>
+          <div className="product-info">
+            <h3 className="product-title">{product.title}</h3>
+            <p className="product-description">{product.description}</p>
+            <p className="product-price">Price : ₹ {Math.round(product.price * 80)}/-</p>
+            <div className="product-actions">
+              <button 
+                className="add-to-cart-btn"
+                onClick={(e) => handleAddToCart(e, product)}
+              >
+                <FontAwesomeIcon icon={faCartShopping} />
+                Add To Cart
+              </button>
+              <button 
+                className="add-to-wishlist-btn"
+                onClick={(e) => handleAddToWishlist(e, product)}
+              >
+                <FontAwesomeIcon icon={faHeart} />
+                Add To Wishlist
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 };
-
-const productSlice = createSlice({
-  name: 'products',
-  initialState,
-  reducers: {
-    setCategory: (state, action) => {
-      state.selectedCategory = action.payload;
-      // Filter products based on selected category
-      if (action.payload === 'all') {
-        state.filteredProducts = state.products;
-      } else {
-        state.filteredProducts = state.products.filter(
-          product => product.category === action.payload
-        );
-      }
-    }
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.products = action.payload;
-        state.filteredProducts = action.payload;
-      });
-  }
-});
-
-export const { setCategory } = productSlice.actions;
-export default productSlice.reducer;
