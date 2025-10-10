@@ -29,21 +29,6 @@ A modern, responsive e-commerce web application built with React, Redux Toolkit,
 - **Local Storage** - Persistent data across browser sessions
 - **Error Handling** - Graceful handling of edge cases
 
-## 🚀 Live Demo
-
-[![Live Demo](https://img.shields.io/badge/Live_Demo-View_Now-green?style=for-the-badge&logo=vercel)](https://your-demo-link.com)
-
-## 📸 Screenshots
-
-### Home Page
-![Home Page](https://via.placeholder.com/800x400/2c3e50/ffffff?text=Home+Page+with+Products)
-
-### Product Detail
-![Product Detail](https://via.placeholder.com/800x400/3498db/ffffff?text=Product+Detail+Page)
-
-### Shopping Cart
-![Shopping Cart](https://via.placeholder.com/800x400/e74c3c/ffffff?text=Shopping+Cart)
-
 ## 🛠️ Tech Stack
 
 ### Frontend
