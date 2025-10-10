@@ -30,7 +30,7 @@ export const ProductDetail = () => {
   }
 
   const colors = ['white', '#2c3e50', '#27ae60'];
-  const rating = 4; // Mock rating
+  const rating = 4;
 
   const handleAddToCart = () => {
     dispatch(addItemToCart(product));
@@ -43,17 +43,14 @@ export const ProductDetail = () => {
   return (
     <div className="product-detail-container">
       <div className="product-detail-content">
-        {/* Product Image Section */}
         <div className="product-image-section">
           <img src={product.image} alt={product.title} className="product-main-image" />
         </div>
 
-        {/* Product Details Section */}
         <div className="product-details-section">
           <div className="product-category">{product.category}</div>
           <h1 className="product-detail-title">{product.title}</h1>
           
-          {/* Rating */}
           <div className="product-rating">
             {[...Array(5)].map((_, index) => (
               <FontAwesomeIcon 
@@ -64,12 +61,10 @@ export const ProductDetail = () => {
             ))}
           </div>
 
-          {/* Description */}
           <p className="product-description">
             {product.description}
           </p>
 
-          {/* Color Selection */}
           <div className="color-selection">
             <label className="color-label">Color</label>
             <div className="color-swatches">
@@ -84,10 +79,8 @@ export const ProductDetail = () => {
             </div>
           </div>
 
-          {/* Price */}
           <div className="product-detail-price">₹{Math.round(product.price * 80)}</div>
 
-          {/* Action Buttons */}
           <div className="product-detail-actions">
             <button className="wishlist-btn" onClick={handleAddToWishlist}>
               <FontAwesomeIcon icon={faHeart} />

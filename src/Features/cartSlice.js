@@ -1,16 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-// Load cart from localStorage
 const loadCartFromStorage = () => {
-  try {
-    const cartData = localStorage.getItem('cart');
-    return cartData ? JSON.parse(cartData) : {
-      items: [],
-      totalQuantity: 0,
-      totalAmount: 0,
-    };
-  } catch (error) {
-    console.error('Error loading cart from localStorage:', error);
+  const cartData = localStorage.getItem('cart');
+  if (cartData) {
+    const parsed = JSON.parse(cartData);
+    if (parsed && typeof parsed === 'object') {
+      return parsed;
+    } else {
+      return {
+        items: [],
+        totalQuantity: 0,
+        totalAmount: 0,
+      };
+    }
+  } else {
     return {
       items: [],
       totalQuantity: 0,
@@ -19,12 +22,9 @@ const loadCartFromStorage = () => {
   }
 };
 
-// Save cart to localStorage
 const saveCartToStorage = (cart) => {
-  try {
+  if (cart) {
     localStorage.setItem('cart', JSON.stringify(cart));
-  } catch (error) {
-    console.error('Error saving cart to localStorage:', error);
   }
 };
 
@@ -53,8 +53,6 @@ const cartSlice = createSlice({
       }
       state.totalQuantity++;
       state.totalAmount = state.items.reduce((sum, item) => sum + item.totalPrice, 0);
-      
-      // Save to localStorage
       saveCartToStorage(state);
     },
     removeItemFromCart: (state, action) => {
@@ -66,8 +64,6 @@ const cartSlice = createSlice({
         state.totalAmount = state.totalAmount - existingItem.totalPrice;
         state.items = state.items.filter(item => item.id !== id);
       }
-      
-      // Save to localStorage
       saveCartToStorage(state);
     },
     increaseQuantity: (state, action) => {
@@ -79,8 +75,6 @@ const cartSlice = createSlice({
         state.totalQuantity++;
         state.totalAmount = state.totalAmount + existingItem.price;
       }
-      
-      // Save to localStorage
       saveCartToStorage(state);
     },
     decreaseQuantity: (state, action) => {
@@ -92,13 +86,11 @@ const cartSlice = createSlice({
         state.totalQuantity--;
         state.totalAmount = state.totalAmount - existingItem.price;
       } else if (existingItem && existingItem.quantity === 1) {
-        // If quantity is 1, remove the item completely
         state.totalQuantity--;
         state.totalAmount = state.totalAmount - existingItem.price;
         state.items = state.items.filter(item => item.id !== id);
       }
-      
-      // Save to localStorage
+
       saveCartToStorage(state);
     },
   },
