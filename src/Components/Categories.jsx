@@ -15,15 +15,23 @@ export const Categories = () => {
     <div className='categories'>
       <h2 className='categories-title'>Categories</h2>
       <div className='categories-list'>
-        {Object.entries(categories).map(([key, value]) => (
-          <button 
-            key={key} 
-            className={`category-btn ${selectedCategory === key ? 'active' : ''}`}
-            onClick={() => handleCategoryClick(key)}
-          >
-            {value}
-          </button>
-        ))}
+        {Object.entries(categories).map(([key, value]) => {
+          let buttonClass;
+          if (selectedCategory === key) {
+            buttonClass = 'category-btn active';
+          } else {
+            buttonClass = 'category-btn';
+          }
+          return (
+            <button 
+              key={key} 
+              className={buttonClass}
+              onClick={() => handleCategoryClick(key)}
+            >
+              {value}
+            </button>
+          );
+        })}
       </div>
     </div>
   )

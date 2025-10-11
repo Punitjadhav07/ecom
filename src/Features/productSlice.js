@@ -4,7 +4,11 @@ const loadProductsFromStorage = () => {
   const productsData = localStorage.getItem('products');
   if (productsData) {
     const parsed = JSON.parse(productsData);
-    return Array.isArray(parsed) ? parsed : [];
+    if (Array.isArray(parsed)) {
+      return parsed;
+    } else {
+      return [];
+    }
   }
   return [];
 };
@@ -53,28 +57,40 @@ const productSlice = createSlice({
     setCategory: (state, action) => {
       state.selectedCategory = action.payload;
       const term = state.searchTerm.trim().toLowerCase();
-      const byCategory = action.payload === 'all'
-        ? state.products
-        : state.products.filter(product => product.category === action.payload);
-      state.filteredProducts = term
-        ? byCategory.filter(p =>
-            p.title.toLowerCase().includes(term) ||
-            p.description.toLowerCase().includes(term)
-          )
-        : byCategory;
+      let byCategory;
+      if (action.payload === 'all') {
+        byCategory = state.products;
+      } else {
+        byCategory = state.products.filter(product => product.category === action.payload);
+      }
+      
+      if (term) {
+        state.filteredProducts = byCategory.filter(p =>
+          p.title.toLowerCase().includes(term) ||
+          p.description.toLowerCase().includes(term)
+        );
+      } else {
+        state.filteredProducts = byCategory;
+      }
     },
     setSearchTerm: (state, action) => {
       state.searchTerm = action.payload;
       const term = state.searchTerm.trim().toLowerCase();
-      const byCategory = state.selectedCategory === 'all'
-        ? state.products
-        : state.products.filter(product => product.category === state.selectedCategory);
-      state.filteredProducts = term
-        ? byCategory.filter(p =>
-            p.title.toLowerCase().includes(term) ||
-            p.description.toLowerCase().includes(term)
-          )
-        : byCategory;
+      let byCategory;
+      if (state.selectedCategory === 'all') {
+        byCategory = state.products;
+      } else {
+        byCategory = state.products.filter(product => product.category === state.selectedCategory);
+      }
+      
+      if (term) {
+        state.filteredProducts = byCategory.filter(p =>
+          p.title.toLowerCase().includes(term) ||
+          p.description.toLowerCase().includes(term)
+        );
+      } else {
+        state.filteredProducts = byCategory;
+      }
     }
   },
   extraReducers: (builder) => {
@@ -82,15 +98,21 @@ const productSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.products = action.payload;
         const term = state.searchTerm.trim().toLowerCase();
-        const byCategory = state.selectedCategory === 'all'
-          ? state.products
-          : state.products.filter(product => product.category === state.selectedCategory);
-        state.filteredProducts = term
-          ? byCategory.filter(p =>
-              p.title.toLowerCase().includes(term) ||
-              p.description.toLowerCase().includes(term)
-            )
-          : byCategory;
+        let byCategory;
+        if (state.selectedCategory === 'all') {
+          byCategory = state.products;
+        } else {
+          byCategory = state.products.filter(product => product.category === state.selectedCategory);
+        }
+        
+        if (term) {
+          state.filteredProducts = byCategory.filter(p =>
+            p.title.toLowerCase().includes(term) ||
+            p.description.toLowerCase().includes(term)
+          );
+        } else {
+          state.filteredProducts = byCategory;
+        }
       });
   }
 });

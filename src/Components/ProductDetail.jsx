@@ -52,13 +52,21 @@ export const ProductDetail = () => {
           <h1 className="product-detail-title">{product.title}</h1>
           
           <div className="product-rating">
-            {[...Array(5)].map((_, index) => (
-              <FontAwesomeIcon 
-                key={index}
-                icon={faStar} 
-                className={`star ${index < rating ? 'filled' : 'empty'}`}
-              />
-            ))}
+            {[...Array(5)].map((_, index) => {
+              let starClass;
+              if (index < rating) {
+                starClass = 'star filled';
+              } else {
+                starClass = 'star empty';
+              }
+              return (
+                <FontAwesomeIcon 
+                  key={index}
+                  icon={faStar} 
+                  className={starClass}
+                />
+              );
+            })}
           </div>
 
           <p className="product-description">
@@ -68,14 +76,22 @@ export const ProductDetail = () => {
           <div className="color-selection">
             <label className="color-label">Color</label>
             <div className="color-swatches">
-              {colors.map((color, index) => (
-                <button
-                  key={index}
-                  className={`color-swatch ${selectedColor === color ? 'selected' : ''}`}
-                  style={{ backgroundColor: color }}
-                  onClick={() => setSelectedColor(color)}
-                />
-              ))}
+              {colors.map((color, index) => {
+                let buttonClass;
+                if (selectedColor === color) {
+                  buttonClass = 'color-swatch selected';
+                } else {
+                  buttonClass = 'color-swatch';
+                }
+                return (
+                  <button
+                    key={index}
+                    className={buttonClass}
+                    style={{ backgroundColor: color }}
+                    onClick={() => setSelectedColor(color)}
+                  />
+                );
+              })}
             </div>
           </div>
 
